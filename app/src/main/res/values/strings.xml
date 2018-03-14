@@ -16,6 +16,7 @@
     <string name="nav_about_us">About Us</string>
     <string name="nav_enter_map_mode">Enter MAP Mode</string>
     <string name="nav_gallery">Gallery</string>
+    <string name="nav_browse_website">Browse Website</string>
 
     <!-- Toolbar titles when navigation menu item is selected -->
     <string-array name="nav_item_activity_titles">

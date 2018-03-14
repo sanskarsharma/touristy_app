@@ -277,6 +277,11 @@ public class MainActivity extends AppCompatActivity {
                         startActivity(new Intent(MainActivity.this, GalleryActivity.class));
                         drawer.closeDrawers();
                         return true;
+                    case R.id.nav_browse_website:
+                        // launch new intent instead of loading fragment
+                        startActivity(new Intent(MainActivity.this, BrowserActivity.class));
+                        drawer.closeDrawers();
+                        return true;
                     default:
                         navItemIndex = 0;
                 }

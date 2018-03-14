@@ -15,4 +15,7 @@
      <!--Margins for carousel with viewpager in home fragment-->
     <dimen name="pager_margin">-20dp</dimen>
 
+    <dimen name="detail_backdrop_height">180dp</dimen>
+
+
 </resources>

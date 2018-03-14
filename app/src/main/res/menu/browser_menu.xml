@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/action_bookmark"
+        android:icon="@mipmap/ic_bookmark_white_24dp"
+        android:orderInCategory="100"
+        android:title="Bookmark"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/action_back"
+        android:icon="@mipmap/ic_keyboard_arrow_left_white_24dp"
+        android:orderInCategory="101"
+        android:title="go Back"
+        app:showAsAction="always" />
+
+
+    <item
+        android:id="@+id/action_forward"
+        android:icon="@mipmap/ic_keyboard_arrow_right_white_24dp"
+        android:orderInCategory="102"
+        android:title="go Forward"
+        app:showAsAction="always" />
+</menu>
