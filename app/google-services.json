@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "773411557774",
+    "firebase_url": "https://touristy-996df.firebaseio.com",
+    "project_id": "touristy-996df",
+    "storage_bucket": "touristy-996df.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:773411557774:android:f7152050f214228c",
+        "android_client_info": {
+          "package_name": "com.technovate18.sanskar.touristy"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "773411557774-d7rpjcmoqs30guf73q6l6mj68m5d2n5i.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDv7gyOZmX3wv0_rfd62UwJekJD3V-r6sI"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
