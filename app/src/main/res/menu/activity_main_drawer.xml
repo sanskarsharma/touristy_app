@@ -11,9 +11,9 @@
             android:icon="@drawable/common_full_open_on_phone"
             android:title="@string/nav_photos" />
         <item
-            android:id="@+id/nav_movies"
+            android:id="@+id/nav_destinations"
             android:icon="@drawable/common_full_open_on_phone"
-            android:title="@string/nav_movies" />
+            android:title="@string/nav_destinations" />
 
         <item
             android:id="@+id/nav_notifications"
@@ -21,19 +21,23 @@
             android:title="@string/nav_notifications" />
 
         <item
-            android:id="@+id/nav_settings"
+            android:id="@+id/nav_tourism_info_center"
             android:icon="@drawable/common_full_open_on_phone"
-            android:title="@string/nav_settings" />
+            android:title="@string/nav_tourism_info_center" />
     </group>
 
     <item android:title="Other">
         <menu>
             <item
+                android:id="@+id/nav_gallery"
+                android:title="@string/nav_gallery" />
+
+            <item
+                android:id="@+id/nav_enter_map_mode"
+                android:title="@string/nav_enter_map_mode" />
+            <item
                 android:id="@+id/nav_about_us"
                 android:title="@string/nav_about_us" />
-            <item
-                android:id="@+id/nav_privacy_policy"
-                android:title="@string/enter_map_mode" />
         </menu>
     </item>
 

@@ -2,12 +2,20 @@ package com.technovate18.sanskar.touristy.fragment;
 
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.technovate18.sanskar.touristy.R;
+import com.technovate18.sanskar.touristy.adapters.CarouselPagerAdapter;
+
+import me.crosswall.lib.coverflow.CoverFlow;
+import me.crosswall.lib.coverflow.core.PageItemClickListener;
+import me.crosswall.lib.coverflow.core.PagerContainer;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -47,6 +55,11 @@ public class HomeFragment extends Fragment {
         return fragment;
     }
 
+    PagerContainer container;
+    ViewPager carouselViewpager ;
+    CoverFlow coverflow;
+
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,7 +67,14 @@ public class HomeFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
+
+
+
     }
+
+
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -62,5 +82,60 @@ public class HomeFragment extends Fragment {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_home, container, false);
     }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        container = view.findViewById(R.id.pager_container);
+        carouselViewpager = container.getViewPager();
+
+        CarouselPagerAdapter carouselPagerAdapter = new CarouselPagerAdapter(getActivity());
+        carouselViewpager.setAdapter(carouselPagerAdapter);
+        carouselViewpager.setClipChildren(false);
+        //
+        carouselViewpager.setOffscreenPageLimit(15);
+
+        container.setPageItemClickListener(new PageItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                Toast.makeText(getActivity().getApplicationContext(),"position:" + position,Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
+        boolean showTransformer = true;  //getIntent().getBooleanExtra("showTransformer",false);
+
+
+        if(showTransformer){
+
+            new CoverFlow.Builder()
+                    .with(carouselViewpager)
+                    .scale(0.3f)
+                    .pagerMargin(getResources().getDimensionPixelSize(R.dimen.pager_margin))
+                    .spaceSize(0f)
+                    .build();
+
+        }else{
+            carouselViewpager.setPageMargin(30);
+        }
+
+
+
+//        coverflow = new CoverFlow.Builder()
+//                .with(carouselViewpager)
+//                .pagerMargin(0f)
+//                .scale(0.3f)
+//                .spaceSize(0f)
+//                .rotationY(0f)
+//                .build();
+
+
+    }
+
+
+
+
+
 
 }

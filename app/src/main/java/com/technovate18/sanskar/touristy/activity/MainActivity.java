@@ -25,11 +25,12 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.technovate18.sanskar.touristy.MapsActivity;
 import com.technovate18.sanskar.touristy.R;
 import com.technovate18.sanskar.touristy.fragment.HomeFragment;
-import com.technovate18.sanskar.touristy.fragment.MoviesFragment;
+import com.technovate18.sanskar.touristy.fragment.DestinationsFragment;
 import com.technovate18.sanskar.touristy.fragment.NotificationsFragment;
 import com.technovate18.sanskar.touristy.fragment.PhotosFragment;
-import com.technovate18.sanskar.touristy.fragment.SettingsFragment;
+import com.technovate18.sanskar.touristy.fragment.TourismInfoCenterFragment;
 import com.technovate18.sanskar.touristy.other.CircleTransform;
+import com.technovate18.sanskar.touristy.utils.URLs;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -43,8 +44,8 @@ public class MainActivity extends AppCompatActivity {
 
     // urls to load navigation header background image
     // and profile image
-    private static final String urlNavHeaderBg = "https://api.androidhive.info/images/nav-menu-header-bg.jpg";
-    private static final String urlProfileImg = "https://www.gravatar.com/avatar/21c6ff4063756e8edf546265fdda782a?d=identicon&s=224";
+    private static final String urlNavHeaderBg = URLs.NAV_BAR_BG_PIC_URL;
+    private static final String urlProfileImg = URLs.CIRCLE_PIC_URL ;
 
     // index to identify current nav menu item
     public static int navItemIndex = 0;
@@ -206,8 +207,8 @@ public class MainActivity extends AppCompatActivity {
                 return photosFragment;
             case 2:
                 // movies fragment
-                MoviesFragment moviesFragment = new MoviesFragment();
-                return moviesFragment;
+                DestinationsFragment destinationsFragment = new DestinationsFragment();
+                return destinationsFragment;
             case 3:
                 // notifications fragment
                 NotificationsFragment notificationsFragment = new NotificationsFragment();
@@ -215,8 +216,8 @@ public class MainActivity extends AppCompatActivity {
 
             case 4:
                 // settings fragment
-                SettingsFragment settingsFragment = new SettingsFragment();
-                return settingsFragment;
+                TourismInfoCenterFragment tourismInfoCenterFragment = new TourismInfoCenterFragment();
+                return tourismInfoCenterFragment;
             default:
                 return new HomeFragment();
         }
@@ -249,7 +250,7 @@ public class MainActivity extends AppCompatActivity {
                         navItemIndex = 1;
                         CURRENT_TAG = TAG_PHOTOS;
                         break;
-                    case R.id.nav_movies:
+                    case R.id.nav_destinations:
                         navItemIndex = 2;
                         CURRENT_TAG = TAG_MOVIES;
                         break;
@@ -257,7 +258,7 @@ public class MainActivity extends AppCompatActivity {
                         navItemIndex = 3;
                         CURRENT_TAG = TAG_NOTIFICATIONS;
                         break;
-                    case R.id.nav_settings:
+                    case R.id.nav_tourism_info_center:
                         navItemIndex = 4;
                         CURRENT_TAG = TAG_SETTINGS;
                         break;
@@ -266,9 +267,14 @@ public class MainActivity extends AppCompatActivity {
                         startActivity(new Intent(MainActivity.this, AboutUsActivity.class));
                         drawer.closeDrawers();
                         return true;
-                    case R.id.nav_privacy_policy:
+                    case R.id.nav_enter_map_mode:
                         // launch new intent instead of loading fragment
                         startActivity(new Intent(MainActivity.this, MapsActivity.class));
+                        drawer.closeDrawers();
+                        return true;
+                    case R.id.nav_gallery:
+                        // launch new intent instead of loading fragment
+                        startActivity(new Intent(MainActivity.this, GalleryActivity.class));
                         drawer.closeDrawers();
                         return true;
                     default:

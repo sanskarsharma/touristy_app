@@ -12,4 +12,7 @@
     <dimen name="profile_width">75dp</dimen>
     <dimen name="profile_height">75dp</dimen>
 
+     <!--Margins for carousel with viewpager in home fragment-->
+    <dimen name="pager_margin">-20dp</dimen>
+
 </resources>
