@@ -9,12 +9,14 @@ import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
+import com.getbase.floatingactionbutton.FloatingActionButton;
+import com.getbase.floatingactionbutton.FloatingActionsMenu;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
@@ -38,9 +40,21 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.TileOverlay;
+import com.google.android.gms.maps.model.TileOverlayOptions;
+import com.google.maps.android.heatmaps.HeatmapTileProvider;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
+import java.util.Scanner;
 
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback,
@@ -235,7 +249,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
     }
 
-
+    public static boolean flaggy ; // flag for turning on and off heatmap
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -245,13 +259,66 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
+        // below is code of old fab button
+
+//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+//        fab.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                //loadPlacePicker();
+//
+//                if(flaggy){
+//                    addheatmap();
+//                }else {
+//                    removeHeatMap();
+//                }
+//                flaggy=!flaggy ;
+//
+//            }
+//        });
+
+        // code of new fab menu
+
+        final FloatingActionsMenu fabMenu = (FloatingActionsMenu) findViewById(R.id.fab_menu);
+
+        FloatingActionButton searchFAB = findViewById(R.id.fab_search);
+        FloatingActionButton heatmapFAB = findViewById(R.id.fab_heatmap);
+
+        searchFAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 loadPlacePicker();
+                fabMenu.collapse();
+
             }
         });
+
+        flaggy = true;
+
+        heatmapFAB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(flaggy){
+                    addheatmap();
+                }else {
+                    removeHeatMap();
+                }
+                flaggy=!flaggy ;
+
+                fabMenu.collapse();
+                //fabMenu.setLabelFor();
+
+            }
+        });
+
+//        addedOnce.setTitle("Added once");
+//        rightLabels.addButton(addedOnce);
+//
+//        FloatingActionButton addedTwice = new FloatingActionButton(this);
+//        addedTwice.setTitle("Added twice");
+//        rightLabels.addButton(addedTwice);
+
 
         if (mGoogleApiClient == null) {
             mGoogleApiClient = new GoogleApiClient.Builder(this)
@@ -264,6 +331,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         createLocationRequest();
 
     }
+
 
 
     /**
@@ -324,6 +392,93 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public boolean onMarkerClick(Marker marker) {
         return false;
     }
+
+
+
+
+    // heatmap code
+
+    TileOverlay muuuu;
+    HeatmapTileProvider mProvider;
+
+    private void addheatmap(){
+        List<LatLng> list = null;
+
+        // Get the data: latitude/longitude positions of police stations.
+        try {
+            list = getRandomlatlongs();
+        } catch (JSONException e) {
+            Toast.makeText(this, "Problem reading list of locations.", Toast.LENGTH_LONG).show();
+        }
+
+
+        // Create a heat map tile provider, passing it the latlngs of the police stations.
+        mProvider = new HeatmapTileProvider.Builder()
+                .data(list)
+                .build();
+        // Add a tile overlay to the map, using the heat map tile provider.
+        muuuu = mMap.addTileOverlay(new TileOverlayOptions().tileProvider(mProvider));
+    }
+
+    private void removeHeatMap(){
+        muuuu.remove();
+    }
+
+    private ArrayList<LatLng> readItems(int resource) throws JSONException {
+        ArrayList<LatLng> list = new ArrayList<LatLng>();
+        InputStream inputStream = getResources().openRawResource(resource);
+        String json = new Scanner(inputStream).useDelimiter("\\A").next();
+        JSONArray array = new JSONArray(json);
+        for (int i = 0; i < array.length(); i++) {
+            JSONObject object = array.getJSONObject(i);
+            double lat = object.getDouble("lat");
+            double lng = object.getDouble("lng");
+            list.add(new LatLng(lat, lng));
+        }
+        return list;
+    }
+
+    private ArrayList<LatLng> getRandomlatlongs() throws JSONException{
+        ArrayList<LatLng> list = new ArrayList<LatLng>();
+
+        Random r = new Random();
+        DecimalFormat df = new DecimalFormat("#.######");
+
+        double latrangeMin = 21.12129;
+        double latrangeMax = 21.98975;
+        double lngrangeMin = 81.23464;
+        double lngrangeMax = 81.99657;
+
+
+        for(int i = 1; i<=25; i++){
+            double lat = Double.parseDouble(df.format(latrangeMin + (latrangeMax - latrangeMin) * r.nextDouble()));
+            double lng = Double.parseDouble(df.format(lngrangeMin + (lngrangeMax - lngrangeMin) * r.nextDouble()));
+            list.add(new LatLng(lat, lng));
+
+        }
+
+        return  list;
+
+    }
+
+
+
+    // heatmap code ends
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     @Override
     protected void onStart() {

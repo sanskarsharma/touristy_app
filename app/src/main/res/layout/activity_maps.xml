@@ -3,7 +3,9 @@
 xmlns:android="http://schemas.android.com/apk/res/android"
 xmlns:app="http://schemas.android.com/apk/res-auto"
 xmlns:tools="http://schemas.android.com/tools"
-android:layout_width="match_parent"
+    xmlns:fab="http://schemas.android.com/apk/res-auto"
+
+    android:layout_width="match_parent"
 android:layout_height="match_parent"
 android:fitsSystemWindows="true">
 
@@ -14,13 +16,56 @@ android:fitsSystemWindows="true">
     android:layout_height="match_parent"
     tools:context="com.technovate18.sanskar.touristy.MapsActivity"/>
 
-<android.support.design.widget.FloatingActionButton
-    android:id="@+id/fab"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_gravity="bottom|start"
-    android:layout_marginStart="20dp"
-    android:layout_marginBottom="30dp"
-    android:src="@android:drawable/ic_menu_search"/>
+<!--<android.support.design.widget.FloatingActionButton-->
+    <!--android:id="@+id/fab"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_gravity="bottom|start"-->
+    <!--android:layout_marginStart="20dp"-->
+    <!--android:layout_marginBottom="30dp"-->
+    <!--android:src="@android:drawable/ic_menu_search"/>-->
+
+    <com.getbase.floatingactionbutton.FloatingActionsMenu
+        android:id="@+id/fab_menu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginBottom="32dp"
+        fab:fab_addButtonColorNormal="@color/colorAccent"
+        fab:fab_addButtonColorPressed="@color/colorPrimaryDark"
+        fab:fab_addButtonPlusIconColor="@color/cardview_shadow_start_color"
+        fab:fab_addButtonSize="normal"
+        fab:fab_labelStyle="@style/menu_labels_style"
+        fab:fab_labelsPosition="right"
+        android:layout_gravity="bottom|start">
+
+        <com.getbase.floatingactionbutton.FloatingActionButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            fab:fab_colorNormal="@color/colorAccent"
+            fab:fab_title="Search nearby places"
+            fab:fab_colorPressed="@color/colorPrimaryDark"
+            android:id="@+id/fab_search"
+            android:src="@drawable/places_ic_search"
+            />
+
+        <com.getbase.floatingactionbutton.FloatingActionButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            fab:fab_colorNormal="@color/colorAccent"
+            fab:fab_size="mini"
+            fab:fab_title="Another one on the right"
+            fab:fab_colorPressed="@color/colorPrimaryDark"
+            android:id="@+id/fab_heatmap"
+            android:src="@mipmap/ic_launcher_round"
+            />
+
+    </com.getbase.floatingactionbutton.FloatingActionsMenu>
+
+
+
 
 </android.support.design.widget.CoordinatorLayout>

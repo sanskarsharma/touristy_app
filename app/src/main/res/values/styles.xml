@@ -20,6 +20,11 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
+    <!--style for fab menu in MapsActivity-->
+    <style name="menu_labels_style">
+        <item name="android:background">@drawable/fab_label_background</item>
+        <item name="android:textColor">@color/colorAccent</item>
+    </style>
 
 
 </resources>
