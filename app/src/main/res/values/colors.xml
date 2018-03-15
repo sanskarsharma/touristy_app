@@ -6,6 +6,12 @@
 
     <color name="black_semi_transparent">#B2000000</color>
 
+    <!--for notification feed-->
+    <color name="day_n_date_color">#ff8533</color>
+    <color name="time_color">#ff8533</color>
+    <color name="time">#999999</color>
+    <color name="title">#222222</color>
+
 
 
 </resources>

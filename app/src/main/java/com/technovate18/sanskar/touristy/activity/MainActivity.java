@@ -1,6 +1,9 @@
 package com.technovate18.sanskar.touristy.activity;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
@@ -8,6 +11,7 @@ import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -22,14 +26,17 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.technovate18.sanskar.touristy.MapsActivity;
 import com.technovate18.sanskar.touristy.R;
-import com.technovate18.sanskar.touristy.fragment.HomeFragment;
 import com.technovate18.sanskar.touristy.fragment.DestinationsFragment;
+import com.technovate18.sanskar.touristy.fragment.HomeFragment;
 import com.technovate18.sanskar.touristy.fragment.NotificationsFragment;
 import com.technovate18.sanskar.touristy.fragment.PhotosFragment;
 import com.technovate18.sanskar.touristy.fragment.TourismInfoCenterFragment;
 import com.technovate18.sanskar.touristy.other.CircleTransform;
+import com.technovate18.sanskar.touristy.utils.Config;
+import com.technovate18.sanskar.touristy.utils.NotificationUtils;
 import com.technovate18.sanskar.touristy.utils.URLs;
 
 public class MainActivity extends AppCompatActivity {
@@ -64,6 +71,9 @@ public class MainActivity extends AppCompatActivity {
     // flag to load home fragment when user presses back key
     private boolean shouldLoadHomeFragOnBackPress = true;
     private Handler mHandler;
+
+    // for firebase FCM code
+    private BroadcastReceiver mRegistrationBroadcastReceiver;
 
 
     @Override
@@ -110,9 +120,63 @@ public class MainActivity extends AppCompatActivity {
             loadHomeFragment();
         }
 
+
+        // firebase FCM code below, for Notifications fragment
+        mRegistrationBroadcastReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+
+                // checking for type intent filter
+                if (intent.getAction().equals(Config.REGISTRATION_COMPLETE)) {
+                    // gcm successfully registered
+                    // now subscribe to `global` topic to receive app wide notifications
+                    FirebaseMessaging.getInstance().subscribeToTopic(Config.TOPIC_GLOBAL);
+
+                    Toast.makeText(getApplicationContext(), "FCM Token received: " , Toast.LENGTH_LONG).show();
+
+                    //displayFirebaseRegId();
+
+                } else if (intent.getAction().equals(Config.PUSH_NOTIFICATION)) {
+                    // new push notification is received
+
+                    String message = intent.getStringExtra("message");
+
+                    Toast.makeText(getApplicationContext(), "Push notification: " + message, Toast.LENGTH_LONG).show();
+
+                   // txtMessage.setText(message);
+                }
+            }
+        };
+
+
+
+
     }
 
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(mRegistrationBroadcastReceiver);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        // register FCM registration complete receiver
+        LocalBroadcastManager.getInstance(this).registerReceiver(mRegistrationBroadcastReceiver,
+                new IntentFilter(Config.REGISTRATION_COMPLETE));
+
+        // register new push message receiver
+        // by doing this, the activity will be notified each time a new message arrives
+        LocalBroadcastManager.getInstance(this).registerReceiver(mRegistrationBroadcastReceiver,
+                new IntentFilter(Config.PUSH_NOTIFICATION));
+
+        // clear the notification area when the app is opened
+        NotificationUtils.clearNotifications(getApplicationContext());
+
+    }
 
     /***
      * Load navigation menu header information
@@ -397,6 +461,11 @@ public class MainActivity extends AppCompatActivity {
         else
             fab.hide();
     }
+
+
+
+
+
 
 
 
