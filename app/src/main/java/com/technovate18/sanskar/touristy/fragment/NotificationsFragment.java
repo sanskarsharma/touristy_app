@@ -1,9 +1,14 @@
 package com.technovate18.sanskar.touristy.fragment;
 
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -11,11 +16,15 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.technovate18.sanskar.touristy.R;
 import com.technovate18.sanskar.touristy.adapters.FeedAdapter;
 import com.technovate18.sanskar.touristy.database.DBhandler;
 import com.technovate18.sanskar.touristy.models.FeedPostModel;
+import com.technovate18.sanskar.touristy.utils.Config;
+import com.technovate18.sanskar.touristy.utils.NotificationUtils;
 
 import java.util.Collections;
 import java.util.List;
@@ -58,6 +67,11 @@ public class NotificationsFragment extends Fragment {
         return fragment;
     }
 
+
+    // for firebase FCM code
+    private BroadcastReceiver mRegistrationBroadcastReceiver;
+
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,6 +79,61 @@ public class NotificationsFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
+
+        // firebase FCM code below, for Notifications fragment
+        mRegistrationBroadcastReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+
+                // checking for type intent filter
+                if (intent.getAction().equals(Config.REGISTRATION_COMPLETE)) {
+                    // gcm successfully registered
+                    // now subscribe to `global` topic to receive app wide notifications
+                    FirebaseMessaging.getInstance().subscribeToTopic(Config.TOPIC_GLOBAL);
+
+                    Toast.makeText(getActivity().getApplicationContext(), "FCM Token received: " , Toast.LENGTH_LONG).show();
+
+                    //displayFirebaseRegId();
+
+                } else if (intent.getAction().equals(Config.PUSH_NOTIFICATION)) {
+                    // new push notification is received
+
+                    String message = intent.getStringExtra("message");
+
+                    Toast.makeText(getActivity().getApplicationContext(), "Push notification: " + message, Toast.LENGTH_LONG).show();
+
+                    refreshFeed();
+                    // txtMessage.setText(message);
+                }
+            }
+        };
+
+
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        LocalBroadcastManager.getInstance(getActivity().getApplicationContext()).unregisterReceiver(mRegistrationBroadcastReceiver);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        // register FCM registration complete receiver
+        LocalBroadcastManager.getInstance(getActivity().getApplicationContext()).registerReceiver(mRegistrationBroadcastReceiver,
+                new IntentFilter(Config.REGISTRATION_COMPLETE));
+
+        // register new push message receiver
+        // by doing this, the activity will be notified each time a new message arrives
+        LocalBroadcastManager.getInstance(getActivity().getApplicationContext()).registerReceiver(mRegistrationBroadcastReceiver,
+                new IntentFilter(Config.PUSH_NOTIFICATION));
+
+        // clear the notification area when the app is opened
+        NotificationUtils.clearNotifications(getActivity().getApplicationContext());
+
     }
 
     @Override
@@ -84,6 +153,7 @@ public class NotificationsFragment extends Fragment {
         recyclerView=(RecyclerView) view.findViewById(R.id.recycler_view);
         registerForContextMenu(recyclerView); /// registering for context menu which gives edit and delete options
 
+        refreshFeed();
 
     }
 
