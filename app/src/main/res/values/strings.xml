@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Touristy</string>
+    <string name="app_name">Touristy - CG Tourism app</string>
     <string name="title_activity_maps">Map</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
@@ -21,7 +21,6 @@
     <!-- Toolbar titles when navigation menu item is selected -->
     <string-array name="nav_item_activity_titles">
         <item>Home</item>
-        <item>Photos</item>
         <item>Destinations</item>
         <item>Notifications</item>
         <item>Tourism Info Center</item>

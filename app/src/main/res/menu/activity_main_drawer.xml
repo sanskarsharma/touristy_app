@@ -6,10 +6,7 @@
             android:id="@+id/nav_home"
             android:icon="@drawable/common_full_open_on_phone"
             android:title="@string/nav_home" />
-        <item
-            android:id="@+id/nav_photos"
-            android:icon="@drawable/common_full_open_on_phone"
-            android:title="@string/nav_photos" />
+
         <item
             android:id="@+id/nav_destinations"
             android:icon="@drawable/common_full_open_on_phone"

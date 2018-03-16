@@ -1,0 +1,28 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.technovate18.sanskar.touristy.fragment.DestinationsFragment">
+
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:id="@+id/destinations_textview"/>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler_view_expandable"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/destinations_textview" />
+
+    </RelativeLayout>
+
+</FrameLayout>

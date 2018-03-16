@@ -2,18 +2,28 @@ package com.technovate18.sanskar.touristy.fragment;
 
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.technovate18.sanskar.touristy.R;
+import com.technovate18.sanskar.touristy.expandableLV.GenreAdapter;
+
+import static com.technovate18.sanskar.touristy.expandableLV.GenreDataFactory.makeClassicGenre;
+import static com.technovate18.sanskar.touristy.expandableLV.GenreDataFactory.makeGenres;
 
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link DestinationsFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
+
+
 public class DestinationsFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -60,7 +70,39 @@ public class DestinationsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_movies, container, false);
+        return inflater.inflate(R.layout.fragment_destinations, container, false);
     }
+
+    RecyclerView recyclerView;
+    LinearLayoutManager layoutManager;
+    GenreAdapter adapter;
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+         recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view_expandable);
+         layoutManager = new LinearLayoutManager(getActivity().getApplicationContext());
+
+        adapter = new GenreAdapter(makeGenres());
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setAdapter(adapter);
+
+        TextView clear = (TextView) view.findViewById(R.id.destinations_textview);
+        String texty = "The satate has cvarious old historic spots, exiqite wild wehfwe wkegef wjerg fwemf werghwmfg wregkwhgmwswgwgwgsrnfwgwg  kwgwk wjg wkh wjghwhjk ejwwe rjwg f wmgwe fwhgwherghw  erhgwhf";
+
+        clear.setText(texty);
+
+        clear.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                adapter.toggleGroup(makeClassicGenre());
+            }
+        });
+
+
+    }
+
+
 
 }

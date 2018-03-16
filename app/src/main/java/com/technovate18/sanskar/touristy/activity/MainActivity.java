@@ -27,7 +27,6 @@ import com.technovate18.sanskar.touristy.R;
 import com.technovate18.sanskar.touristy.fragment.DestinationsFragment;
 import com.technovate18.sanskar.touristy.fragment.HomeFragment;
 import com.technovate18.sanskar.touristy.fragment.NotificationsFragment;
-import com.technovate18.sanskar.touristy.fragment.PhotosFragment;
 import com.technovate18.sanskar.touristy.fragment.TourismInfoCenterFragment;
 import com.technovate18.sanskar.touristy.other.CircleTransform;
 import com.technovate18.sanskar.touristy.utils.Constants;
@@ -150,7 +149,7 @@ public class MainActivity extends AppCompatActivity {
                 .into(imgProfile);
 
         // showing dot next to notifications label
-        navigationView.getMenu().getItem(3).setActionView(R.layout.menu_dot);
+        navigationView.getMenu().getItem(2).setActionView(R.layout.menu_dot);
     }
 
     /***
@@ -212,20 +211,20 @@ public class MainActivity extends AppCompatActivity {
                 // home
                 HomeFragment homeFragment = new HomeFragment();
                 return homeFragment;
+//            case 1:
+//                // photos
+//                PhotosFragment photosFragment = new PhotosFragment();
+//                return photosFragment;
             case 1:
-                // photos
-                PhotosFragment photosFragment = new PhotosFragment();
-                return photosFragment;
-            case 2:
                 // movies fragment
                 DestinationsFragment destinationsFragment = new DestinationsFragment();
                 return destinationsFragment;
-            case 3:
+            case 2:
                 // notifications fragment
                 NotificationsFragment notificationsFragment = new NotificationsFragment();
                 return notificationsFragment;
 
-            case 4:
+            case 3:
                 // settings fragment
                 TourismInfoCenterFragment tourismInfoCenterFragment = new TourismInfoCenterFragment();
                 return tourismInfoCenterFragment;
@@ -257,20 +256,20 @@ public class MainActivity extends AppCompatActivity {
                         navItemIndex = 0;
                         CURRENT_TAG = TAG_HOME;
                         break;
-                    case R.id.nav_photos:
-                        navItemIndex = 1;
-                        CURRENT_TAG = TAG_PHOTOS;
-                        break;
+//                    case R.id.nav_photos:
+//                        navItemIndex = 1;
+//                        CURRENT_TAG = TAG_PHOTOS;
+//                        break;
                     case R.id.nav_destinations:
-                        navItemIndex = 2;
+                        navItemIndex = 1;
                         CURRENT_TAG = TAG_MOVIES;
                         break;
                     case R.id.nav_notifications:
-                        navItemIndex = 3;
+                        navItemIndex = 2;
                         CURRENT_TAG = TAG_NOTIFICATIONS;
                         break;
                     case R.id.nav_tourism_info_center:
-                        navItemIndex = 4;
+                        navItemIndex = 3;
                         CURRENT_TAG = TAG_SETTINGS;
                         break;
                     case R.id.nav_about_us:

@@ -13,9 +13,9 @@
     <application
         android:name=".Touristy"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/logo_cbt_plain_black"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@mipmap/logo_cbt_wb_shadow"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
