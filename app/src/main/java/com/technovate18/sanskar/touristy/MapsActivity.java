@@ -42,7 +42,9 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.TileOverlay;
 import com.google.android.gms.maps.model.TileOverlayOptions;
+import com.google.maps.android.SphericalUtil;
 import com.google.maps.android.heatmaps.HeatmapTileProvider;
+import com.technovate18.sanskar.touristy.adapters.CustomInfoWindowAdapter;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -100,26 +102,41 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 LatLng currentLocation = new LatLng(mLastLocation.getLatitude(), mLastLocation
                         .getLongitude());
                 //add pin at user's location
-                placeMarkerOnMap(currentLocation);
+
+                String pintext = "Hi, this is your start location." ;
+                String pinsubtext = "The blue dot represents your live location on the map. Go explore Chhattisgarh in Map mode :) !";
+
+                placeMarkerOnMap(currentLocation, pintext, pinsubtext);
                 mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 12));
             }
         }
     }
 
-    protected void placeMarkerOnMap(LatLng location) {
-        // 1
-        MarkerOptions markerOptions = new MarkerOptions().position(location);
-        markerOptions.icon(BitmapDescriptorFactory.defaultMarker(
-                BitmapDescriptorFactory.HUE_GREEN));
+    protected void placeMarkerOnMap(LatLng location, String titletext, String subtitleText) {
+
 
         String titleStr = getAddress(location);
         Log.d("Result of getAddress()", titleStr);
-        if(titleStr != null)
-            markerOptions.title(titleStr);
-        else
-            markerOptions.title("Sample location Title");
-        // 2
+
+        if(titletext==null || titletext.equals("")){
+            titletext = titleStr;
+            if(titletext==null || titletext.equals("")){
+                titletext = "You selected this location";
+            }
+
+        }
+
+        MarkerOptions markerOptions = new MarkerOptions()
+                .position(location)
+                .title(titletext)
+                .snippet(subtitleText)
+                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
+
+
+
         mMap.addMarker(markerOptions);
+
+
     }
 
     private String getAddress( LatLng latLng ) {
@@ -222,11 +239,32 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         if (requestCode == PLACE_PICKER_REQUEST) {
             if (resultCode == RESULT_OK) {
                 Place place = PlacePicker.getPlace(this, data);
-                String addressText = place.getName().toString();
-                addressText += "\n" + place.getAddress().toString();
 
-                placeMarkerOnMap(place.getLatLng());
-                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(place.getLatLng(), 12));
+                double dist = SphericalUtil.computeDistanceBetween(place.getLatLng(), new LatLng(mLastLocation.getLatitude(),mLastLocation.getLongitude()));
+
+                DecimalFormat df = new DecimalFormat("#.##");
+                dist = Double.parseDouble(df.format(dist));
+
+                String distStr = "";
+
+                // in Km
+                if(dist>1000){
+                    dist = dist/1000;
+                    dist = Double.parseDouble(df.format(dist));
+                    distStr = dist + " Km" ;
+                }else {
+                    int distint = (int) dist;
+                    distStr = distint + " meters";
+                }
+
+
+                String addressTitletext = place.getName().toString();
+                String addressSubtext =  place.getAddress().toString();
+                addressSubtext += "\n\n" + "Distance from current Location : "+ distStr;
+
+
+                placeMarkerOnMap(place.getLatLng(), addressTitletext, addressSubtext);
+                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(place.getLatLng(), 15));
 
             }
         }
@@ -357,6 +395,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 //        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(myPlace,12));
 
         mMap.getUiSettings().setZoomControlsEnabled(true);
+
+        // for custom windows of marker
+        CustomInfoWindowAdapter adapter = new CustomInfoWindowAdapter(MapsActivity.this);
+        mMap.setInfoWindowAdapter(adapter);
+
         mMap.setOnMarkerClickListener(this);
 
     }
@@ -365,7 +408,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onLocationChanged(Location location) {
         mLastLocation = location;
         if (null != mLastLocation) {
-            placeMarkerOnMap(new LatLng(mLastLocation.getLatitude(), mLastLocation.getLongitude()));
+
+          //  dont want to place marker on location change
+
+            // placeMarkerOnMap(new LatLng(mLastLocation.getLatitude(), mLastLocation.getLongitude()));
         }
     }
 
@@ -390,7 +436,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     @Override
     public boolean onMarkerClick(Marker marker) {
-        return false;
+
+        marker.showInfoWindow();
+        return true;
     }
 
 

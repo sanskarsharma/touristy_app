@@ -18,6 +18,14 @@
 
     </me.crosswall.lib.coverflow.core.PagerContainer>
 
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center_horizontal|center_vertical"
+        android:text="Explore Chhattisgarh !"
+        android:textSize="30sp"
+        android:textColor="#000000"/>
 
 
 </FrameLayout>

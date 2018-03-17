@@ -131,17 +131,17 @@ public class MainActivity extends AppCompatActivity {
      */
     private void loadNavHeader() {
         // name, website
-        txtName.setText("Sanskar Sharma");
-        txtWebsite.setText("github.com/sanskarsharma");
+        txtName.setText("CG Tourism ");
+        txtWebsite.setText("cgtourism.choice.gov.in");
 
         // loading header background image
-        Glide.with(this).load(urlNavHeaderBg)
+        Glide.with(this).load(R.drawable.chitrakote_main)
                 .crossFade()
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(imgNavHeaderBg);
 
         // Loading profile image
-        Glide.with(this).load(urlProfileImg)
+        Glide.with(this).load(R.mipmap.logo_i_cg)
                 .thumbnail(0.5f)
                 .crossFade()
                 .bitmapTransform(new CircleTransform(this))
@@ -284,7 +284,7 @@ public class MainActivity extends AppCompatActivity {
                         return true;
                     case R.id.nav_gallery:
                         // launch new intent instead of loading fragment
-                        startActivity(new Intent(MainActivity.this, GalleryActivity.class));
+                        startActivity(new Intent(MainActivity.this, GalleryLandingActivity.class));
                         drawer.closeDrawers();
                         return true;
                     case R.id.nav_browse_website:

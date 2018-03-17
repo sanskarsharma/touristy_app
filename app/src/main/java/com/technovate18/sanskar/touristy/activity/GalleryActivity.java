@@ -8,6 +8,7 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 
@@ -73,6 +74,15 @@ public class GalleryActivity extends AppCompatActivity {
             }
         }));
 
+       String url = getIntent().getStringExtra("album");
+
+        if (TextUtils.isEmpty(url)) {
+            finish();
+        }else {
+            setTitle("Album");
+        }
+
+
 
 
         fetchImages();
@@ -91,6 +101,13 @@ public class GalleryActivity extends AppCompatActivity {
                         pDialog.dismiss();
                         Log.d(TAG, response.toString());
                         pDialog.hide();
+
+                        try {
+                            response = new JSONArray("");
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
 
                         images.clear();
                         for (int i = 0; i < response.length(); i++) {

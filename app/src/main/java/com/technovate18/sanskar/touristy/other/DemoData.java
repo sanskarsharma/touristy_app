@@ -8,7 +8,13 @@ import com.technovate18.sanskar.touristy.R;
 
 public class DemoData {
 
-    public static int[] covers = {R.mipmap.ic_cover_1,R.mipmap.ic_cover_2,R.mipmap.ic_cover_1,R.mipmap.ic_cover_2,
-            R.mipmap.ic_cover_1,R.mipmap.ic_cover_2,R.mipmap.ic_cover_1,R.mipmap.ic_cover_2};
+    public static int[] covers = {R.drawable.kanger_valley_park,
+            R.drawable.kanger_valley_park,
+            R.drawable.tirathgarh_waterfall,
+            R.drawable.bhoram_deo,
+            R.drawable.barnawa__wild_bhaisa,
+            R.drawable.gangrel_dam,
+            R.mipmap.ic_cover_2,
+            R.mipmap.ic_cover_1};
 
 }

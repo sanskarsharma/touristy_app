@@ -13,7 +13,7 @@
     <application
         android:name=".Touristy"
         android:allowBackup="true"
-        android:icon="@mipmap/logo_cbt_plain_black"
+        android:icon="@mipmap/logo_i_cg"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/logo_cbt_wb_shadow"
         android:supportsRtl="true"
@@ -49,12 +49,7 @@
         </activity>
         <activity android:name=".activity.GalleryActivity" />
         <activity android:name=".activity.BrowserActivity" />
-        <activity android:name=".activity.InBrowserActivity">
-
-        </activity>
-
-
-
+        <activity android:name=".activity.InBrowserActivity"></activity>
 
         <!-- Firebase Notifications -->
 
@@ -63,7 +58,6 @@
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
-
         <service android:name=".services.MyFirebaseInstanceIdService">
             <intent-filter>
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
@@ -72,8 +66,7 @@
 
         <!-- ./Firebase Notifications -->
 
-
-
+        <activity android:name=".activity.GalleryLandingActivity"></activity>
     </application>
 
 </manifest>
