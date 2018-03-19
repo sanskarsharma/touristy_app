@@ -89,7 +89,7 @@ public class DestinationsFragment extends Fragment {
         recyclerView.setAdapter(adapter);
 
         TextView clear = (TextView) view.findViewById(R.id.destinations_textview);
-        String texty = "The satate has cvarious old historic spots, exiqite wild wehfwe wkegef wjerg fwemf werghwmfg wregkwhgmwswgwgwgsrnfwgwg  kwgwk wjg wkh wjghwhjk ejwwe rjwg f wmgwe fwhgwherghw  erhgwhf";
+        String texty = "The state has various old historic spots. It is one of the fastest developing states in india . Located in central india, is leading producer of minerals such as coal, iron ore , dolamite etc. ";
 
         clear.setText(texty);
 
